@@ -66,7 +66,7 @@ module.exports = {
    * results directory
    */
   _injectCSS(css) {
-    var template  = this._readFile(TEMPLATE_PATH);
+    var template  = this._readFile(this._pathFor('index.html'));
     var outputPath = this._pathFor(this.ampIndexPath);
 
     var cssInjector = new CSSInjector({
