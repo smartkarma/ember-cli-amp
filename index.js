@@ -37,6 +37,7 @@ module.exports = {
     this.ampIndexPath = options.index;
     this.buildCount   = 0;
     this.alwaysRebuildIndex = options.alwaysRebuildIndex === undefined ? false : options.alwaysRebuildIndex;
+    this.cleanCss = options.cleanCss || (css) => css;
 
     if (!this.cssPath) {
       throw new Error('You must specify amp.css option in ember-cli-build.js');
@@ -108,8 +109,10 @@ module.exports = {
     this.resultsDir = results.directory;
     var css = this._readBuiltFile(this.cssPath);
 
-    return this._validateCSS(css)
-      .then(() => this._injectCSS(css));
+    var cleanedCss = this.cleanCss(css);
+
+    return this._validateCSS(cleanedCss)
+      .then(() => this._injectCSS(cleanedCss));
   },
 
   _validateCSS(css) {
